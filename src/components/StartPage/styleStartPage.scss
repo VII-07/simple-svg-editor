@@ -44,10 +44,33 @@
   }
 
   .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 15px;
     h1{
         color: white;
         font-size: 25px;
+    }
+
+    &__list {
+        li{
+            display: flex;
+            align-items: center;
+            svg{
+                height: 40px;
+                width: 40px;
+                margin: 10px;
+            }
+            div{
+                font-size: 16px;
+                margin: 0;
+                color: white;
+                strong{
+                    font-weight: 900;
+                }
+            }
+        }
     }
   }
   

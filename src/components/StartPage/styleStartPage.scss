@@ -8,70 +8,81 @@
     align-items: center;
     background-color: #fff;
     padding: 10px;
-  }
-  
-  .content {
-    text-align: center;
-    min-height: 120px;
-    line-height: 120px;
-    color: #fff;
-    background-color: #080c30;
-  }
-  
-  .layout {
+}
+
+.layout {
     overflow: hidden;
     width: 100%;
     margin: 0;
     height: 100vh;
-  }
-  
-  .logo {
+}
+
+.logo {
     border-radius: 50px;
     width: 60px;
-    height: 60px; 
+    height: 60px;
+
     &__container {
-        display: flex; 
+        display: flex;
         align-items: center;
         border: none;
         box-shadow: none;
     }
-    &__title{
+
+    &__title {
         font-family: "Pacifico", cursive;
         font-size: 25px;
         margin-bottom: 0 !important;
         color: #2f314e;
     }
-  }
+}
 
-  .content{
+.content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 15px;
-    h1{
+    text-align: center;
+    min-height: 120px;
+    line-height: 120px;
+    color: #fff;
+    background-color: #080c30;
+
+    h1 {
         color: white;
         font-size: 25px;
     }
 
     &__list {
-        li{
+        li {
             display: flex;
             align-items: center;
-            svg{
+
+            svg {
                 height: 40px;
                 width: 40px;
                 margin: 10px;
             }
-            div{
+
+            div {
                 font-size: 16px;
                 margin: 0;
                 color: white;
-                strong{
+
+                strong {
                     font-weight: 900;
                 }
             }
         }
     }
-  }
-  
-
+    &__upload{
+        border: 1px solid white;
+        border-radius: 10px;
+        margin: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: none !important;
+    }
+}

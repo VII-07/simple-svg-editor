@@ -1,18 +1,15 @@
-import { Layout, Button, Upload, Typography, Flex, Row, Col } from 'antd';
-import { UploadOutlined, DownloadOutlined,DashboardOutlined } from '@ant-design/icons';
+import { Layout, Button, Typography, Flex, Row, Col } from 'antd';
+import { DownloadOutlined, DashboardOutlined } from '@ant-design/icons';
 import './styleStartPage.scss';
 import logo from '../../assets/Designer.png';
 import { Container } from 'react-bootstrap';
+import UploadComponent from './UploadComponent/UploadComponent';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
 
 const StartPage = () => {
 
-    const handleUpload = (file: File) => {
-        // Ваша логіка обробки завантаженого файлу
-        console.log('Завантажено файл:', file);
-    };
     return (
         <Flex gap="middle" wrap="wrap">
             <Layout className="layout">
@@ -35,7 +32,7 @@ const StartPage = () => {
                                         <Paragraph><strong>Step 1:</strong> Select the SVG image you want to edit and submit it here to the uploader at the right.</Paragraph>
                                     </li>
                                     <li>
-                                    <DashboardOutlined />
+                                        <DashboardOutlined />
                                         <Paragraph><strong>Step 2:</strong> Wait a moment; the editor will load in a few seconds and display your image.</Paragraph>
                                     </li>
                                     <li>
@@ -46,9 +43,7 @@ const StartPage = () => {
 
                             </Col>
                             <Col span="12">
-                                <Upload accept=".svg" beforeUpload={handleUpload} showUploadList={false}>
-                                    <Button icon={<UploadOutlined />}>Завантажити SVG</Button>
-                                </Upload>
+                                <UploadComponent/>
                             </Col>
                         </Row>
                     </Container>

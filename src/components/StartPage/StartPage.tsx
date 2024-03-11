@@ -29,17 +29,18 @@ const StartPage = () => {
                                 <ul className='content__list'>
                                     <li>
                                         <DownloadOutlined />
-                                        <Paragraph><strong>Step 1:</strong> Select the SVG image you want to edit and submit it here to the uploader at the right.</Paragraph>
+                                        <Paragraph><strong>Крок 1:</strong> Виберіть SVG-зображення, яке ви хочете редагувати, та завантажте його сюди, використовуючи завантажувач справа.</Paragraph>
                                     </li>
                                     <li>
                                         <DashboardOutlined />
-                                        <Paragraph><strong>Step 2:</strong> Wait a moment; the editor will load in a few seconds and display your image.</Paragraph>
+                                        <Paragraph><strong>Крок 2:</strong> Зачекайте кілька секунд; редактор завантажиться та відобразить ваше зображення.</Paragraph>
                                     </li>
                                     <li>
                                         <DownloadOutlined />
-                                        <Paragraph><strong>Step 3:</strong> Start editing and save your image once done.</Paragraph>
+                                        <Paragraph><strong>Крок 3:</strong> Почніть редагувати та збережіть своє зображення, коли закінчите.</Paragraph>
                                     </li>
                                 </ul>
+
 
                             </Col>
                             <Col sm={24} md={12}>

@@ -1,10 +1,9 @@
-import StartPage from "./components/StartPage/StartPage"
-
+import Routers from "./components/Router/Router"
 
 function App() {
 
   return (
-    <StartPage/>
+    <Routers/>
   )
 
 }

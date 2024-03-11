@@ -1,5 +1,5 @@
 import { Layout, Button, Typography, Flex, Row, Col } from 'antd';
-import { DownloadOutlined, DashboardOutlined } from '@ant-design/icons';
+import { DownloadOutlined, DashboardOutlined, FileImageOutlined, PoundCircleOutlined, DesktopOutlined } from '@ant-design/icons';
 import './styleStartPage.scss';
 import logo from '../../assets/Designer.png';
 import { Container } from 'react-bootstrap';
@@ -24,7 +24,7 @@ const StartPage = () => {
                 <Content className="content">
                     <Container>
                         <Row>
-                            <Col span="12">
+                            <Col sm={24} md={12}>
                                 <Title className='content__title' level={1}>Simple SVG editor</Title>
                                 <ul className='content__list'>
                                     <li>
@@ -42,13 +42,23 @@ const StartPage = () => {
                                 </ul>
 
                             </Col>
-                            <Col span="12">
-                                <UploadComponent/>
+                            <Col sm={24} md={12}>
+                                <UploadComponent />
                             </Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}><div className="content__info"><DashboardOutlined /><Paragraph><strong>Чому Simple SVG Editor цінний?</strong> SSE - це потужний інструмент, який дозволяє вам легко редагувати SVG зображення прямо в браузері, без необхідності встановлювати спеціалізоване програмне забезпечення. Все, що вам потрібно, вже тут.</Paragraph></div></Col>
+                            <Col span={6}><div className="content__info"><PoundCircleOutlined /><Paragraph><strong>Цей сервіс коштує грошей?</strong> Наш сервіс повністю безкоштовний, оскільки ми отримуємо дохід від реклами. Немає жодних прихованих витрат або платежів.</Paragraph></div></Col>
+                            <Col span={6}><div className="content__info"><DesktopOutlined /><Paragraph><strong>Інтерфейс користувача.</strong> Ми надаємо простий у використанні графічний інтерфейс, який робить процес редагування максимально зручним.</Paragraph></div></Col>
+                            <Col span={6}><div className="content__info"><FileImageOutlined /><Paragraph><strong>Що таке SVG файли?</strong> SVG, або Scalable Vector Graphics, - це формат векторних зображень, який став стандартом в інтернеті. Він відрізняється від растрових форматів, таких як JPG або PNG, тим, що його можна масштабувати без втрати якості.</Paragraph></div></Col>
                         </Row>
                     </Container>
                 </Content>
-                <Footer></Footer>
+                <Footer>
+                    <Paragraph className='footer__text'>
+                        Безкоштовний SVG-редактор надає вам доступ до всіх своїх функцій без жодних оплат. Ми щиро сподіваємося, що вони вам стануть у пригоді. Необхідно зазначити, що ми не даємо жодних гарантій щодо їх роботи. Використовуючи цей інструмент, ви даєте згоду на завантаження ваших зображень на віддалений сервер.
+                    </Paragraph>
+                </Footer>
             </Layout>
         </Flex>
     );

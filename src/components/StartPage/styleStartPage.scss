@@ -85,4 +85,25 @@
         height: 100%;
         background: none !important;
     }
+    &__info{
+        margin-top: 15%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        div{
+            color: white;
+        }
+        svg{
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.footer{
+    &__text{
+        text-align: center;
+        color: gray;
+    }
 }

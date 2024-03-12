@@ -8,7 +8,7 @@ const DownloadSvgComponent = (svgCode : string) => {
 
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'my_circle.svg'; // Змініть ім'я файлу за потребою
+        link.download = 'my_circle.svg'; 
         link.click();
 
         URL.revokeObjectURL(url);

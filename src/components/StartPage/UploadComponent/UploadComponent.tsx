@@ -23,16 +23,18 @@ const UploadComponent: React.FC = () => {
                 const reader = new FileReader();
                 reader.onload = (e: ProgressEvent<FileReader>) => {
                     if (e.target?.result) {
-                        setSvgCode(e.target.result as string);
+                        const newSvgCode = e.target.result as string;
+                        setSvgCode(newSvgCode);
+                        console.log(newSvgCode);
+                        console.log(svgCode);
                     }
                 };
-                if (originFileObj !== undefined) {
-                    reader.readAsText(originFileObj);
+               if (originFileObj !== undefined) {
+                   reader.readAsText(originFileObj);
                 }
             }
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`);
-                console.log(svgCode);
                 return navigate("/workspace");
             } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);

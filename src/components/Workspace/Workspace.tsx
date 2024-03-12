@@ -1,22 +1,22 @@
-import { Layout,Button } from "antd";
-import { Content, Header } from "antd/es/layout/layout";
+import { Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
 import styles from './style.module.scss'
-import { PlusCircleFilled } from "@ant-design/icons";
+import SideComponent from "./SideComponent/SideComponent";
+import HeaderWorkspace from "./WorkspaceHeader/HeaderWorkspace";
 
 
 const Workspace = () => {
-    return ( 
+    return (
         <Layout className={styles.workspace}>
-            <Header className={styles.header}>
-                <div className={styles.action__container}>
-                    <Button><PlusCircleFilled/>Insert file</Button>
-                </div>
-            </Header>
-            <Content className={styles.content}>
-
-            </Content>
+            <HeaderWorkspace/>
+            <Layout className={styles.content__container}>
+                <SideComponent/>
+                <Content className={styles.content}>
+                    
+                </Content>
+            </Layout>
         </Layout>
-     );
+    );
 }
- 
+
 export default Workspace;

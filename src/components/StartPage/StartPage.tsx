@@ -1,4 +1,4 @@
-import { Layout, Button, Typography, Flex, Row, Col } from 'antd'
+import { Layout, Button, Typography, Flex, Row, Col} from 'antd'
 import {
   DownloadOutlined,
   DashboardOutlined,
@@ -8,7 +8,6 @@ import {
 } from '@ant-design/icons'
 import './styleStartPage.scss'
 import logo from '../../assets/Designer.png'
-import { Container } from 'react-bootstrap'
 import UploadComponent from './UploadComponent/UploadComponent'
 
 const { Header, Content, Footer } = Layout
@@ -21,12 +20,12 @@ const StartPage = () => {
           <Button className="logo__container">
             <img className="logo" src={logo} alt="logo" />
             <Title className="logo__title" level={3}>
-              Simple Editor12
+              Simple Editor
             </Title>
           </Button>
         </Header>
         <Content className="content">
-          <Container>
+          <div>
             <Row>
               <Col sm={24} md={12}>
                 <Title className="content__title" level={1}>
@@ -105,7 +104,7 @@ const StartPage = () => {
                 </div>
               </Col>
             </Row>
-          </Container>
+          </div>
         </Content>
         <Footer>
           <Paragraph className="footer__text">

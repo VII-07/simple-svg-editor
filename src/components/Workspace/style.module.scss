@@ -1,0 +1,14 @@
+
+.workspace {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    background-color: rgb(200, 200, 200);
+    &__container {
+        flex: 1 1 auto;
+        overflow: auto;
+    }
+}

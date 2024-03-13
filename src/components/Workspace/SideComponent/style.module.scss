@@ -1,6 +1,6 @@
 .aside{
-    padding: 10px;
     background-color: white !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .input__container{
@@ -16,5 +16,15 @@
         font-size: 14px;
         font-weight: 700;
         margin-bottom: 5px;
+    }
+}
+
+.action{
+    &__title{
+        font-size: 15px !important;
+        color: grey !important;
+    }
+    &__container{
+        margin: 20px;
     }
 }

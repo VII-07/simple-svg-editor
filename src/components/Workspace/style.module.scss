@@ -6,7 +6,10 @@
 }
 
 .content {
-    background-color: rgb(200, 200, 200);
+    background-color: #f7f8fd;
+    background-image: url('../../assets/pngimg.com\ -\ dot_PNG22\ \(1\).png');
+    background-size: 4px;
+    background-repeat: repeat;
     &__container {
         flex: 1 1 auto;
         overflow: auto;

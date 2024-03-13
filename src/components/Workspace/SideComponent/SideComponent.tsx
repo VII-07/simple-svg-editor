@@ -30,7 +30,7 @@ const SideComponent = () => {
                     </Col>
                     <Col xs={12}>
                         <div className={styles.input__container}>
-                            <span>Wight</span>
+                            <span>Width</span>
                             <InputNumber controls={false} min={1} defaultValue={1} onChange={() => onChangeWeight} />
                         </div>
                     </Col>
@@ -83,7 +83,7 @@ const SideComponent = () => {
                 <Row>
                     <Col xs={12}>
                         <div className={styles.input__container}>
-                            <span>Border wight</span>
+                            <span>Border width</span>
                             <InputNumber controls={false} min={0} defaultValue={0} onChange={() => onChangeHeight} />
                         </div>
                     </Col>

@@ -1,6 +1,6 @@
 .aside{
-    border-right: 1px solid white;
     padding: 10px;
+    background-color: white !important;
 }
 
 .input__container{
@@ -8,8 +8,11 @@
    flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
+    div {
+        border-radius: 0;
+    }
     span{
-        color: white;
+        color: black;
         font-size: 14px;
         font-weight: 700;
         margin-bottom: 5px;

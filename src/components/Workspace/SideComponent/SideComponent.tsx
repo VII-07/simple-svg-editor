@@ -8,7 +8,7 @@ import ColorChange from "./ActionInputComponents/ColorChangeAction";
 const SideComponent = () => {
 
     return (
-        <Sider width="20%" className={styles.aside}>
+        <Sider width="22%" className={styles.aside}>
             <div className={styles.action__container}>
                 <Row>
                     <Col xs={12}>
@@ -37,11 +37,11 @@ const SideComponent = () => {
                 <Row>
                     <Col xs={12}><Typography.Title className={styles.action__title} level={4}>Fill</Typography.Title></Col>
                 </Row>
-                <Row>
-                    <Col xs={12}>
+                <Row className={styles.flex__color}>
+                    <Col xs={11}>
                         <ColorChange title="Color"/>
                     </Col>
-                    <Col xs={12}>
+                    <Col xs={11}>
                         <ColorChange title="Border color"/>
                     </Col>
                 </Row>

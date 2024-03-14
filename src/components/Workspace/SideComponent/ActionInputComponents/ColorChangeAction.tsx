@@ -14,7 +14,7 @@ const ColorChange = ({title} : actionsInputType) => {
     return (
         <div className={styles.input__container}>
             <span>{title}</span>
-            <ColorPicker defaultValue="#1677ff" onChange={onChangeActionColor}/>
+            <ColorPicker showText defaultValue="#1677ff" onChange={onChangeActionColor}/>
         </div>
     );
 }

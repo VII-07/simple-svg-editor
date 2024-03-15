@@ -1,0 +1,52 @@
+.content {
+    background-color: #f7f8fd;
+    background-image: url('../../../assets/pngimg.com\ -\ dot_PNG22\ \(1\).png');
+    background-size: 4px;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker {
+    &__top {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        cursor: ns-resize;
+        height: 2px;
+        background: black;
+    }
+    &__bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        cursor: ns-resize;
+        width: 100%;
+        background: black;
+    }
+    &__left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        cursor: ew-resize;
+        width: 2px;
+        background: black;
+    }
+    &__right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 2px;
+        cursor: ew-resize;
+        height: 100%;
+        background: black;
+    }
+}

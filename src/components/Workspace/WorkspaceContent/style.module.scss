@@ -3,9 +3,6 @@
     background-image: url('../../../assets/pngimg.com\ -\ dot_PNG22\ \(1\).png');
     background-size: 4px;
     background-repeat: repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .marker {
@@ -18,6 +15,7 @@
         cursor: ns-resize;
         height: 2px;
         background: black;
+        margin-bottom: 15px;
     }
     &__bottom {
         position: absolute;
@@ -49,4 +47,44 @@
         height: 100%;
         background: black;
     }
+}
+
+.marker__topLeft {
+    position: absolute;
+    top: 0;
+    left: -7px;
+    width: -7px;
+    height: 10px;
+    border: 2px solid black;
+    cursor: nwse-resize;
+}
+
+.marker__topRight {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid black;
+    cursor: nesw-resize;
+}
+
+.marker__bottomLeft {
+    position: absolute;
+    bottom: -7px;
+    left: -7px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid black;
+    cursor: nesw-resize;
+}
+
+.marker__bottomRight {
+    position: absolute;
+    bottom: -7px;
+    right: -7px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid black;
+    cursor: nwse-resize;
 }

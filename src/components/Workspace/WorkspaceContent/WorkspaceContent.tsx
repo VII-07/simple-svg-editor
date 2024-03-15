@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Content } from 'antd/es/layout/layout';
 import style from './style.module.scss';
 
@@ -7,36 +7,86 @@ interface Dimensions {
     height: number;
 }
 
+interface SvgElement {
+    resize: (width: number, height: number) => void;
+}
+
+class Circle implements SvgElement {
+    private element: SVGCircleElement;
+
+    constructor(element: SVGCircleElement) {
+        this.element = element;
+    }
+
+    resize(width: number, height: number) {
+        const radius = Math.min(width, height) / 2;
+        this.element.setAttribute('r', radius.toString());
+        this.element.setAttribute('cx', (width / 2).toString());
+        this.element.setAttribute('cy', (height / 2).toString());
+    }
+}
+
 const WorkspaceContent = () => {
     const [dimensions, setDimensions] = useState<Dimensions>({ width: 100, height: 100 });
     const svgRef = useRef<SVGSVGElement | null>(null);
+    const topLeftRef = useRef<HTMLDivElement | null>(null);
+    const topRightRef = useRef<HTMLDivElement | null>(null);
+    const bottomLeftRef = useRef<HTMLDivElement | null>(null);
+    const bottomRightRef = useRef<HTMLDivElement | null>(null);
     const topRef = useRef<HTMLDivElement | null>(null);
     const bottomRef = useRef<HTMLDivElement | null>(null);
     const leftRef = useRef<HTMLDivElement | null>(null);
     const rightRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const circleElement = svgRef.current?.querySelector('circle');
+        if (circleElement) {
+            const circle = new Circle(circleElement);
+            circle.resize(dimensions.width, dimensions.height);
+        }
+    }, [dimensions]);
 
     const handleMouseDown = (e: React.MouseEvent, direction: string) => {
         e.preventDefault();
         const svgRect = svgRef.current?.getBoundingClientRect();
         if (!svgRect) return;
 
+        const initialMousePosition = { x: e.clientX, y: e.clientY };
+
         const onMouseMove = (e: MouseEvent) => {
+            const dx = e.clientX - initialMousePosition.x;
+            const dy = e.clientY - initialMousePosition.y;
+
             switch (direction) {
+                case 'top-left':
+                    setDimensions(prev => ({ width: prev.width - dx, height: prev.height - dy }));
+                    break;
+                case 'top-right':
+                    setDimensions(prev => ({ width: prev.width + dx, height: prev.height - dy }));
+                    break;
+                case 'bottom-left':
+                    setDimensions(prev => ({ width: prev.width - dx, height: prev.height + dy }));
+                    break;
+                case 'bottom-right':
+                    setDimensions(prev => ({ width: prev.width + dx, height: prev.height + dy }));
+                    break;
                 case 'top':
-                    setDimensions(prev => ({ ...prev, height: svgRect.bottom - e.clientY }));
+                    setDimensions(prev => ({ width: prev.width, height: prev.height - dy }));
                     break;
                 case 'bottom':
-                    setDimensions(prev => ({ ...prev, height: e.clientY - svgRect.top }));
+                    setDimensions(prev => ({ width: prev.width, height: prev.height + dy }));
                     break;
                 case 'left':
-                    setDimensions(prev => ({ ...prev, width: svgRect.right - e.clientX }));
+                    setDimensions(prev => ({ width: prev.width - dx, height: prev.height }));
                     break;
                 case 'right':
-                    setDimensions(prev => ({ ...prev, width: e.clientX - svgRect.left }));
+                    setDimensions(prev => ({ width: prev.width + dx, height: prev.height }));
                     break;
             }
-        };
 
+            initialMousePosition.x = e.clientX;
+            initialMousePosition.y = e.clientY;
+        };
 
         const onMouseUp = () => {
             window.removeEventListener('mousemove', onMouseMove);
@@ -50,12 +100,16 @@ const WorkspaceContent = () => {
     return (
         <Content className={style.content}>
             <div style={{ position: 'relative', width: dimensions.width, height: dimensions.height }}>
+                <div ref={topLeftRef} onMouseDown={(e) => handleMouseDown(e, 'top-left')} className={style.marker__topLeft} />
+                <div ref={topRightRef} onMouseDown={(e) => handleMouseDown(e, 'top-right')} className={style.marker__topRight} />
+                <div ref={bottomLeftRef} onMouseDown={(e) => handleMouseDown(e, 'bottom-left')} className={style.marker__bottomLeft} />
+                <div ref={bottomRightRef} onMouseDown={(e) => handleMouseDown(e, 'bottom-right')} className={style.marker__bottomRight} />
                 <div ref={topRef} onMouseDown={(e) => handleMouseDown(e, 'top')} className={style.marker__top} />
                 <div ref={bottomRef} onMouseDown={(e) => handleMouseDown(e, 'bottom')} className={style.marker__bottom} />
                 <div ref={leftRef} onMouseDown={(e) => handleMouseDown(e, 'left')} className={style.marker__left} />
-                <div ref={rightRef} onMouseDown={(e) => handleMouseDown(e, 'right')} className={style.marker__right}/>
+                <div ref={rightRef} onMouseDown={(e) => handleMouseDown(e, 'right')} className={style.marker__right} />
                 <svg ref={svgRef} width={dimensions.width} height={dimensions.height} xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%"  rx="20" ry="20" fill="blue" />
+                    <circle r="100" cx="150" cy="200" fill="red" />
                 </svg>
             </div>
         </Content>

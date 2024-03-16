@@ -11,16 +11,16 @@ interface SvgElement {
   resize: (width: number, height: number) => void;
 }
 
-class Circle implements SvgElement {
-  private element: SVGCircleElement;
+class Ellipse implements SvgElement {
+  private element: SVGEllipseElement;
 
-  constructor(element: SVGCircleElement) {
+  constructor(element: SVGEllipseElement) {
     this.element = element;
   }
 
   resize(width: number, height: number) {
-    const radius = Math.min(width, height) / 2;
-    this.element.setAttribute('r', radius.toString());
+    this.element.setAttribute('rx', (width / 2).toString());
+    this.element.setAttribute('ry', (height / 2).toString());
     this.element.setAttribute('cx', (width / 2).toString());
     this.element.setAttribute('cy', (height / 2).toString());
   }
@@ -42,12 +42,17 @@ const WorkspaceContent = () => {
   const rightRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const circleElement = svgRef.current?.querySelector('circle');
-    if (circleElement) {
-      const circle = new Circle(circleElement);
-      circle.resize(dimensions.width, dimensions.height);
+    const ellipseElement = svgRef.current?.querySelector('ellipse');
+    if (ellipseElement) {
+      const ellipse = new Ellipse(ellipseElement);
+      ellipse.resize(dimensions.width, dimensions.height);
     }
   }, [dimensions]);
+
+  const handleResize = (dx: number, dy: number, widthChange: number, heightChange: number, topChange: number, leftChange: number) => {
+    setDimensions(prev => ({ width: prev.width + dx * widthChange, height: prev.height + dy * heightChange }));
+    setPosition(prev => ({ top: prev.top + dy * topChange, left: prev.left + dx * leftChange }));
+  };
 
   const handleMouseDown = (e: React.MouseEvent, direction: string) => {
     e.preventDefault();
@@ -60,19 +65,35 @@ const WorkspaceContent = () => {
       const dx = e.clientX - initialMousePosition.x;
       const dy = e.clientY - initialMousePosition.y;
 
+      let delta;
       switch (direction) {
         case 'top-left':
-          setDimensions(prev => ({ width: prev.width - dx, height: prev.height - dy }));
-          setPosition(prev => ({ top: prev.top + dy, left: prev.left + dx }));
+        case 'bottom-right':
+          delta = Math.min(dx, dy);
           break;
         case 'top-right':
-          setDimensions(prev => ({ width: prev.width + dx, height: prev.height - dy }));
+          delta = dx > 0 ? Math.min(dx, dy) : Math.max(dx, dy);
           break;
         case 'bottom-left':
-          setDimensions(prev => ({ width: prev.width - dx, height: prev.height + dy }));
+          delta = dx < 0 ? Math.min(dx, dy) : Math.max(dx, dy);
+          break;
+        default:
+          delta = dx;
+          break;
+      }
+
+      switch (direction) {
+        case 'top-left':
+          handleResize(delta, delta, -1, -1, 1, 1);
+          break;
+        case 'top-right':
+          handleResize(delta, delta, -1, -1, 1, 0);
+          break;
+        case 'bottom-left':
+          handleResize(delta, delta, -1, -1, 0, 1);
           break;
         case 'bottom-right':
-          setDimensions(prev => ({ width: prev.width + dx, height: prev.height + dy }));
+          handleResize(delta, delta, 1, 1, 0, 0);
           break;
         case 'top':
           setDimensions(prev => ({ width: prev.width, height: prev.height - dy }));
@@ -115,7 +136,7 @@ const WorkspaceContent = () => {
         <div ref={leftRef} onMouseDown={(e) => handleMouseDown(e, 'left')} className={style.marker__left} />
         <div ref={rightRef} onMouseDown={(e) => handleMouseDown(e, 'right')} className={style.marker__right} />
         <svg ref={svgRef} width={dimensions.width} height={dimensions.height} xmlns="http://www.w3.org/2000/svg">
-          <circle r="100" cx="150" cy="200" fill="red" />
+          <ellipse rx="100" ry="100" cx="150" cy="200" fill="red" />
         </svg>
       </div>
     </Content>

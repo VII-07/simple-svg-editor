@@ -2,17 +2,27 @@ import React, { useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 import './style.scss';
 
-interface SVGResizerProps {
-  svgStrings: string[];
+interface SVGItem {
+  svgString: string;
+  color?: string;
+  border?: string;
+  zIndex?: number;
 }
 
-const SVGResizer: React.FC<SVGResizerProps> = ({ svgStrings }) => {
-  const canvasRef = useRef(null);
+interface SVGResizerProps {
+  svgItems: SVGItem[];
+}
+
+const SVGResizer: React.FC<SVGResizerProps> = ({ svgItems }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current);
 
-    svgStrings.forEach(svgString => {
+    // Sort SVG items by z-index
+    const sortedSvgItems = [...svgItems].sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
+
+    sortedSvgItems.forEach(({ svgString, color, border }) => {
       fabric.loadSVGFromString(svgString, (objects, options) => {
         const svgImage = fabric.util.groupSVGElements(objects, options);
         svgImage.setControlsVisibility({
@@ -21,6 +31,16 @@ const SVGResizer: React.FC<SVGResizerProps> = ({ svgStrings }) => {
           ml: true, 
           mr: true
         });
+
+        // Set color if provided
+        if (color) {
+          svgImage.set({ fill: color });
+        }
+
+        // Set border if provided
+        if (border) {
+          svgImage.set({ stroke: border });
+        }
 
         // Set canvas size to match the parent div
         const parentDiv = document.getElementById('content');
@@ -40,9 +60,13 @@ const SVGResizer: React.FC<SVGResizerProps> = ({ svgStrings }) => {
         }
       });
     });
-  }, [svgStrings]);
+  }, [svgItems]);
 
-  return <canvas ref={canvasRef}/>;
+  return (
+    <div>
+      <canvas ref={canvasRef}/>
+    </div>
+  );
 };
 
 export default SVGResizer;

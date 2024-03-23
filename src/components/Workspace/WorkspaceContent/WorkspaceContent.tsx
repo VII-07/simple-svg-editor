@@ -14,37 +14,42 @@ const SVGResizer = () => {
       canvas.current = new fabric.Canvas(canvasRef.current);
     }
 
-    const svgString = svgStrings[svgStrings.length - 1]; // Get the last SVG string
+    if (svgStrings.length === 0 && canvas.current) {
+      canvas.current.clear(); // Clear the canvas if the array is empty
+    } else {
+      const svgString = svgStrings[svgStrings.length - 1]; // Get the last SVG string
 
-    if (svgString && canvas.current) {
-      fabric.loadSVGFromString(svgString, (objects, options) => {
-        const svgImage = fabric.util.groupSVGElements(objects, options);
-        svgImage.setControlsVisibility({
-          mt: true, 
-          mb: true, 
-          ml: true, 
-          mr: true
-        });
-
-        // Set canvas size to match the parent div
-        const parentDiv = document.getElementById('content');
-
-        if(parentDiv) {
-          canvas.current?.setDimensions({
-            width: parentDiv.clientWidth,
-            height: parentDiv.clientHeight
+      if (svgString && canvas.current) {
+        fabric.loadSVGFromString(svgString, (objects, options) => {
+          const svgImage = fabric.util.groupSVGElements(objects, options);
+          svgImage.setControlsVisibility({
+            mt: true, 
+            mb: true, 
+            ml: true, 
+            mr: true
           });
-    
-          // Center the SVG image
-          const centerX = parentDiv.clientWidth / 2;
-          const centerY = parentDiv.clientHeight / 2;
-          svgImage.set({ left: centerX, top: centerY });
-    
-          canvas.current?.add(svgImage).renderAll();
-        }
-      });
+
+          // Set canvas size to match the parent div
+          const parentDiv = document.getElementById('content');
+
+          if(parentDiv) {
+            canvas.current?.setDimensions({
+              width: parentDiv.clientWidth,
+              height: parentDiv.clientHeight
+            });
+      
+            // Center the SVG image
+            const centerX = parentDiv.clientWidth / 2;
+            const centerY = parentDiv.clientHeight / 2;
+            svgImage.set({ left: centerX, top: centerY });
+      
+            canvas.current?.add(svgImage).renderAll();
+          }
+        });
+      }
     }
   }, [svgStrings]);
+
 
 
   return (

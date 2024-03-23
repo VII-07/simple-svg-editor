@@ -9,7 +9,7 @@ const svgsSlice = createSlice({
     add: (state, action: PayloadAction<string>) => {
       state.push(action.payload);
     },
-    clear: () => [] as ArrayState,
+    clear: (state) => { state.length = 0; },
   },
 });
 

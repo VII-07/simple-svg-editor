@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Upload, message } from 'antd';
 import './style.scss';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { add } from '../../Redux/reducer';
 
 const { Dragger } = Upload;
 
 const UploadComponent: React.FC = () => {
-    const [svgCode, setSvgCode] = useState<string>("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const props: UploadProps = {
         name: 'file',
@@ -24,9 +25,7 @@ const UploadComponent: React.FC = () => {
                 reader.onload = (e: ProgressEvent<FileReader>) => {
                     if (e.target?.result) {
                         const newSvgCode = e.target.result as string;
-                        setSvgCode(newSvgCode);
-                        console.log(newSvgCode);
-                        console.log(svgCode);
+                        dispatch(add(newSvgCode));
                     }
                 };
                if (originFileObj !== undefined) {

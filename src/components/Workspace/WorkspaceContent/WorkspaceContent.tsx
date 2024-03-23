@@ -1,28 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { fabric } from 'fabric';
 import './style.scss';
+import { ArrayState } from '../../Redux/reducer';
 
-interface SVGItem {
-  svgString: string;
-  color?: string;
-  border?: string;
-  zIndex?: number;
-}
-
-interface SVGResizerProps {
-  svgItems: SVGItem[];
-}
-
-const SVGResizer: React.FC<SVGResizerProps> = ({ svgItems }) => {
+const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const svgStrings = useSelector((state: { svgsSlice: ArrayState }) => state.svgsSlice);
+  const canvas = useRef<fabric.Canvas | null>(null);
 
   useEffect(() => {
-    const canvas = new fabric.Canvas(canvasRef.current);
+    if (canvasRef.current && !canvas.current) {
+      canvas.current = new fabric.Canvas(canvasRef.current);
+    }
 
-    // Sort SVG items by z-index
-    const sortedSvgItems = [...svgItems].sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
+    const svgString = svgStrings[svgStrings.length - 1]; // Get the last SVG string
 
-    sortedSvgItems.forEach(({ svgString, color, border }) => {
+    if (svgString && canvas.current) {
       fabric.loadSVGFromString(svgString, (objects, options) => {
         const svgImage = fabric.util.groupSVGElements(objects, options);
         svgImage.setControlsVisibility({
@@ -32,21 +26,11 @@ const SVGResizer: React.FC<SVGResizerProps> = ({ svgItems }) => {
           mr: true
         });
 
-        // Set color if provided
-        if (color) {
-          svgImage.set({ fill: color });
-        }
-
-        // Set border if provided
-        if (border) {
-          svgImage.set({ stroke: border });
-        }
-
         // Set canvas size to match the parent div
         const parentDiv = document.getElementById('content');
 
         if(parentDiv) {
-          canvas.setDimensions({
+          canvas.current?.setDimensions({
             width: parentDiv.clientWidth,
             height: parentDiv.clientHeight
           });
@@ -56,11 +40,12 @@ const SVGResizer: React.FC<SVGResizerProps> = ({ svgItems }) => {
           const centerY = parentDiv.clientHeight / 2;
           svgImage.set({ left: centerX, top: centerY });
     
-          canvas.add(svgImage).renderAll();
+          canvas.current?.add(svgImage).renderAll();
         }
       });
-    });
-  }, [svgItems]);
+    }
+  }, [svgStrings]);
+
 
   return (
     <div>

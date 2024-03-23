@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, message, Upload } from 'antd';
-
-
+import { useDispatch } from 'react-redux';
+import { add } from '../Redux/reducer';
 
 const UpploadBtn: React.FC = () => {
-
-  const [svgCode, setSvgCode] = useState<string>('');
+  const dispatch = useDispatch();
 
   const props: UploadProps = {
     name: 'file',
@@ -21,8 +20,8 @@ const UpploadBtn: React.FC = () => {
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           if (e.target?.result) {
-            setSvgCode(e.target.result as string);
-            console.log(svgCode);
+            const svgString = e.target.result as string;
+            dispatch(add(svgString));
           }
         };
         if (originFileObj !== undefined) {
@@ -35,13 +34,13 @@ const UpploadBtn: React.FC = () => {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
-
   };
+
   return (
     <Upload {...props}>
       <Button icon={<UploadOutlined />}>Вставити файл</Button>
     </Upload>
-  )
+  );
 };
 
 export default UpploadBtn;

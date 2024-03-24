@@ -3,7 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, message, Upload } from 'antd';
 import { useDispatch } from 'react-redux';
-import { add } from '../Redux/reducer';
+import { add } from '../Redux/svgReducer';
 
 const UpploadBtn: React.FC = () => {
   const dispatch = useDispatch();

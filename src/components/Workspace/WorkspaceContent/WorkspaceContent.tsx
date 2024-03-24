@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fabric } from 'fabric';
 import './style.scss';
-import { ArrayState } from '../../Redux/reducer';
+import { ArrayState } from '../../Redux/svgReducer';
+import { setWidth, setHeight, setX, setY, setRotate } from '../../Redux/inputReducer';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const svgStrings = useSelector((state: { svgsSlice: ArrayState }) => state.svgsSlice);
   const canvas = useRef<fabric.Canvas | null>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (canvasRef.current && !canvas.current) {
@@ -38,19 +40,44 @@ const SVGResizer = () => {
               height: parentDiv.clientHeight
             });
       
-            // Center the SVG image
-            const centerX = parentDiv.clientWidth / 2;
-            const centerY = parentDiv.clientHeight / 2;
-            svgImage.set({ left: centerX, top: centerY });
-      
             canvas.current?.add(svgImage).renderAll();
+
+            // Move the event handler here
+            canvas.current?.on('mouse:down', function(options) {
+              if (options.target) {
+                const selectedObject = options.target;
+                const { width, height, left, top, angle } = selectedObject;
+                console.log( width, height, left, top, angle);
+                dispatch(setWidth(Math.round(width ?? 0)));
+                dispatch(setHeight(Math.round(height ?? 0)));
+                dispatch(setX(Math.round(left ?? 0)));
+                dispatch(setY(Math.round(top ?? 0)));
+                dispatch(setRotate(Math.round(angle ?? 0)));
+              }
+            });                                   
           }
         });
       }
     }
-  }, [svgStrings]);
+  }, [svgStrings, dispatch]);
 
+  // Add resize event listener
+  useEffect(() => {
+    const handleResize = () => {
+      const parentDiv = document.getElementById('content');
+      if(parentDiv && canvas.current) {
+        canvas.current.setDimensions({
+          width: parentDiv.clientWidth,
+          height: parentDiv.clientHeight
+        });
+      }
+    };
 
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div>

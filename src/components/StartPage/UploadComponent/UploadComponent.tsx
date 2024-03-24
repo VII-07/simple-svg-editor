@@ -4,7 +4,7 @@ import { Upload, message } from 'antd';
 import './style.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { add } from '../../Redux/reducer';
+import { add } from '../../Redux/svgReducer';
 
 const { Dragger } = Upload;
 

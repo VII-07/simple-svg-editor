@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fabric } from 'fabric';
 import './style.scss';
 import { ArrayState } from '../../Redux/svgReducer';
-import { setWidth, setHeight, setX, setY, setRotate } from '../../Redux/inputReducer';
+import { handleMouseDown } from '../../functions/updateImageParametersInState';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -43,18 +43,11 @@ const SVGResizer = () => {
             canvas.current?.add(svgImage).renderAll();
 
             // Move the event handler here
-            canvas.current?.on('mouse:down', function(options) {
-              if (options.target) {
-                const selectedObject = options.target;
-                const { width, height, left, top, angle } = selectedObject;
-                console.log( width, height, left, top, angle);
-                dispatch(setWidth(Math.round(width ?? 0)));
-                dispatch(setHeight(Math.round(height ?? 0)));
-                dispatch(setX(Math.round(left ?? 0)));
-                dispatch(setY(Math.round(top ?? 0)));
-                dispatch(setRotate(Math.round(angle ?? 0)));
-              }
-            });                                   
+            handleMouseDown(canvas.current, dispatch);
+
+            canvas.current?.on('mouse:up', function () {
+              canvas.current?.off('mouse:move');
+          });                               
           }
         });
       }

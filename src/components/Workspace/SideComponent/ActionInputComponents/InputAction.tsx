@@ -47,7 +47,7 @@ const ActionInput = ({title} : {title: string}) => {
     return (
         <div className={styles.input__container}>
             <span>{title}</span>
-            <InputNumber controls={false} min={0} value={value} onChange={onChangeActionInput} />
+            <InputNumber controls={false} value={value} onChange={onChangeActionInput} />
         </div>
     );
 }

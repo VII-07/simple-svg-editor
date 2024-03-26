@@ -10,31 +10,36 @@ const UpploadBtn: React.FC = () => {
 
   const props: UploadProps = {
     name: 'file',
-    action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+    multiple: true,
     accept: '.svg',
     showUploadList: false,
-
-    onChange(info) {
-      const { status, originFileObj } = info.file;
-      if (status !== 'uploading') {
+    customRequest({ file, onSuccess, onError }) {
+        if (typeof file === 'string' || !(file instanceof Blob)) {
+            onError && onError(new Error('Invalid file type'));
+            return;
+        }
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
-          if (e.target?.result) {
-            const svgString = e.target.result as string;
-            dispatch(add(svgString));
-          }
+            if (e.target?.result) {
+                const newSvgCode = e.target.result as string;
+                onSuccess && onSuccess('ok');
+                dispatch(add(newSvgCode));
+            }
         };
-        if (originFileObj !== undefined) {
-          reader.readAsText(originFileObj);
-        }
-      }
-      if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+        reader.onerror = () => {
+            onError && onError(new Error('FileReader error'));
+        };
+        reader.readAsText(file);
     },
-  };
+    onChange(info) {
+        const { status } = info.file;
+        if (status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+    }
+  }
 
   return (
     <Upload {...props}>

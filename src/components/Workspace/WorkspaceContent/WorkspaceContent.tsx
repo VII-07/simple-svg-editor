@@ -4,10 +4,13 @@ import { fabric } from 'fabric';
 import './style.scss';
 import { ArrayState } from '../../Redux/svgReducer';
 import { handleMouseDown } from '../../functions/updateImageParametersInState';
+import { SVGProperties } from '../../Redux/inputReducer';
+import { applySvgProperties } from '../../functions/applySvgProperties';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const svgStrings = useSelector((state: { svgsSlice: ArrayState }) => state.svgsSlice);
+  const svgProperties = useSelector((state: { inputReducer: SVGProperties }) => state.inputReducer);
   const canvas = useRef<fabric.Canvas | null>(null);
   const dispatch = useDispatch();
 
@@ -39,20 +42,17 @@ const SVGResizer = () => {
               width: parentDiv.clientWidth,
               height: parentDiv.clientHeight
             });
-      
-            canvas.current?.add(svgImage).renderAll();
-
+             canvas.current?.add(svgImage).renderAll();
             // Move the event handler here
-            handleMouseDown(canvas.current, dispatch);
-
-            canvas.current?.on('mouse:up', function () {
-              canvas.current?.off('mouse:move');
-          });                               
+            handleMouseDown(canvas.current, dispatch);                            
           }
         });
       }
     }
   }, [svgStrings, dispatch]);
+  useEffect(() => {
+    applySvgProperties(canvas.current, svgProperties);
+  },[svgProperties, canvas])
 
   // Add resize event listener
   useEffect(() => {
@@ -65,12 +65,10 @@ const SVGResizer = () => {
         });
       }
     };
-
     window.addEventListener('resize', handleResize);
-
-    // Clean up event listener on unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  
 
   return (
     <div>

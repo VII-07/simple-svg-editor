@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SVGProperties, setHeight, setRadius, setRotate, setWidth, setX, setY } from '../../../Redux/inputReducer';
+import { useDispatch } from 'react-redux';
 import styles from '../style.module.scss'
 import { InputNumber } from 'antd';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
-type RootState = {
-  inputReducer: SVGProperties;
-};
+type ActionInputType = {
+    title: string,
+    reduxValue: number,
+    setInState: ActionCreatorWithPayload<number>,
+}
 
-const ActionInput = ({title} : {title: string}) => {
-    const reduxValue = useSelector((state: RootState) => state.inputReducer[title.toLowerCase()]);
+const ActionInput = ({ title, setInState, reduxValue }: ActionInputType) => {
     const [value, setValue] = useState(reduxValue);
     const dispatch = useDispatch();
 
@@ -19,30 +20,8 @@ const ActionInput = ({title} : {title: string}) => {
 
     const onChangeActionInput = (value: number | null) => {
         const newValue = value !== null ? value : 0;
-        switch(title) {
-            case 'X':
-                dispatch(setX(newValue));
-                break;
-            case 'Y':
-                dispatch(setY(newValue));
-                break;
-            case 'Width':
-                dispatch(setWidth(newValue));
-                break;
-            case 'Height':
-                dispatch(setHeight(newValue));
-                break;
-            case 'Radius':
-                dispatch(setRadius(newValue));
-                break;
-            case 'Rotate':
-                dispatch(setRotate(newValue));
-                break;
-            default:
-                break;
-        }
-    };
-    
+        dispatch(setInState(newValue));
+    }
 
     return (
         <div className={styles.input__container}>

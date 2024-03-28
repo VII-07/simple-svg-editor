@@ -1,23 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type SVGProperties = {
-    width: number;
-    height: number;
-    x: number;
-    y: number;
-    rotate: number;
-    radius: number;
-    [key: string]: number;
-  };
-  
+  scaleX: number;
+  scaleY: number;
+  x: number;
+  y: number;
+  rotate: number;
+  radius: number;
+  borderWight: number;
+};
+
 
 const initialState: SVGProperties = {
-  width: 0,
-  height: 0,
+  scaleX: 0,
+  scaleY: 0,
   x: 0,
   y: 0,
   rotate: 0,
   radius: 0,
+  borderWight: 0,
 };
 
 const svgPropertiesSlice = createSlice({
@@ -25,10 +26,10 @@ const svgPropertiesSlice = createSlice({
   initialState,
   reducers: {
     setWidth: (state, action: PayloadAction<number>) => {
-      state.width = action.payload;
+      state.scaleX = action.payload;
     },
     setHeight: (state, action: PayloadAction<number>) => {
-      state.height = action.payload;
+      state.scaleY = action.payload;
     },
     setX: (state, action: PayloadAction<number>) => {
       state.x = action.payload;

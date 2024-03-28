@@ -5,13 +5,16 @@ import ActionInput from "./ActionInputComponents/InputAction";
 import ColorChange from "./ActionInputComponents/ColorChangeAction";
 import { setX, setY, setWidth,setHeight, setRadius, setRotate, SVGProperties } from "../../Redux/inputReducer";
 import { useSelector } from "react-redux";
+import { ColorPropertiesType } from "../../Redux/changeColorReducer";
 
 type RootState = {
     inputReducer: SVGProperties;
+    colorProperties: ColorPropertiesType
 };
 
 const SideComponent = () => {
     const reduxValue = useSelector((state: RootState) => state.inputReducer);
+    const reduxColor = useSelector((state:RootState) => state.colorProperties);
 
     return (
         <Sider width="22%" className={styles.aside}>
@@ -45,10 +48,10 @@ const SideComponent = () => {
                 </Row>
                 <Row className={styles.flex__color}>
                     <Col xs={11}>
-                        <ColorChange title="Color"/>
+                        <ColorChange title="Color" colorRedux={reduxColor.color}/>
                     </Col>
                     <Col xs={11}>
-                        <ColorChange title="Border color"/>
+                        <ColorChange title="Border color" colorRedux={reduxColor.colorBorder}/>
                     </Col>
                 </Row>
             </div>

@@ -1,30 +1,36 @@
 import { ColorPicker, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../style.module.scss'
 import { Color } from 'antd/es/color-picker';
+import { setColor } from '../../../Redux/changeColorReducer';
+import { useDispatch } from 'react-redux';
 
 type colorChangeType = {
     title: string,
+    colorRedux: string,
 }
 
-const ColorChange = ({ title }: colorChangeType) => {
-    const [color, setColor] = useState('#624590');
+const ColorChange = ({ title, colorRedux }: colorChangeType) => {
+    const [colorValue, setColorValue] = useState(colorRedux);
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        setColorValue(colorRedux);
+    },[colorRedux])
 
     const onChangeActionColor = (value: Color,) => {
-        setColor(value.toHexString());
-        console.log('changed', color);
+        dispatch(setColor(value.toHexString()));
     };
 
     const onChangeInputColor = (value: React.ChangeEvent<HTMLInputElement>) => {
-        setColor(value.target.value);
-        console.log('changed', color);
+        dispatch(setColor(value.target.value));
     };
     return (
         <div className={styles.input__container}>
             <span>{title}</span>
             <div className={styles.input__container__color}>
-                <ColorPicker defaultValue={'#d231k'} value={color} onChange={onChangeActionColor} />
-                <Input value={color} onChange={onChangeInputColor} />
+                <ColorPicker defaultValue={'#9f1212'} value={colorValue} onChange={onChangeActionColor} />
+                <Input value={colorValue} onChange={onChangeInputColor} />
             </div>
         </div>
     );

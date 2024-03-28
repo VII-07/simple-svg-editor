@@ -1,22 +1,24 @@
 import { Dispatch } from 'redux';
 import { setWidth, setHeight, setX, setY, setRotate } from '../Redux/inputReducer';
 import { setSvg } from '../Redux/downloadSvgReducer';
+import { setColor } from '../Redux/changeColorReducer';
 
 export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch) => {
   canvas?.on('mouse:down', function () {
     canvas.on('mouse:move', function (options) {
       if (options.target) {
         const selectedObject = options.target;
-        const { left, top, angle, scaleX, scaleY } = selectedObject;
+        const { left, top, angle, scaleX, scaleY, fill } = selectedObject;
 
         const width = scaleX?.toFixed(2);
         const height = scaleY?.toFixed(2);
 
-        console.log(width, height)
-
         if (canvas) {
           const svg = canvas.toSVG();
           dispatch(setSvg(svg));
+        }
+        if(typeof fill === 'string'){
+          dispatch(setColor(fill))
         }
         dispatch(setWidth(Number(width) ?? 0));
         dispatch(setHeight(Number(height) ?? 0));

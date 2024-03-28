@@ -7,11 +7,14 @@ import { handleMouseDown } from '../../functions/updateImageParametersInState';
 import { SVGProperties } from '../../Redux/inputReducer';
 import { applySvgProperties } from '../../functions/applySvgProperties';
 import { handleDeleteSVG } from '../../functions/deleteSvg';
+import { ColorPropertiesType } from '../../Redux/changeColorReducer';
+import { changeSvgProperties } from '../../functions/changeColor';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const svgStrings = useSelector((state: { svgsSlice: ArrayState }) => state.svgsSlice);
   const svgProperties = useSelector((state: { inputReducer: SVGProperties }) => state.inputReducer);
+  const colorRedux = useSelector((state: { colorProperties: ColorPropertiesType }) => state.colorProperties);
   const canvas = useRef<fabric.Canvas | null>(null);
   const dispatch = useDispatch();
 
@@ -54,7 +57,8 @@ const SVGResizer = () => {
 
   useEffect(() => {
     applySvgProperties(canvas.current, svgProperties);
-  }, [svgProperties, canvas])
+    changeSvgProperties(canvas.current, colorRedux);
+  }, [svgProperties,colorRedux, canvas])
 
   // Add resize event listener
   useEffect(() => {

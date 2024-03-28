@@ -19,7 +19,7 @@ export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch
           dispatch(setSvg(svg));
         }
         dispatch(setWidth(Number(width) ?? 0));
-        dispatch(setHeight((Number(height) ?? 0)));
+        dispatch(setHeight(Number(height) ?? 0));
         dispatch(setX(Math.round(left ?? 0)));
         dispatch(setY(Math.round(top ?? 0)));
         dispatch(setRotate(Math.round(angle ?? 0)));

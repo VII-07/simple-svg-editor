@@ -6,6 +6,7 @@ import { ArrayState } from '../../Redux/svgReducer';
 import { handleMouseDown } from '../../functions/updateImageParametersInState';
 import { SVGProperties } from '../../Redux/inputReducer';
 import { applySvgProperties } from '../../functions/applySvgProperties';
+import { handleDeleteSVG } from '../../functions/deleteSvg';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -28,37 +29,38 @@ const SVGResizer = () => {
         fabric.loadSVGFromString(svgString, (objects, options) => {
           const svgImage = fabric.util.groupSVGElements(objects, options);
           svgImage.setControlsVisibility({
-            mt: true, 
-            mb: true, 
-            ml: true, 
+            mt: true,
+            mb: true,
+            ml: true,
             mr: true
           });
 
           // Set canvas size to match the parent div
           const parentDiv = document.getElementById('content');
 
-          if(parentDiv) {
+          if (parentDiv) {
             canvas.current?.setDimensions({
               width: parentDiv.clientWidth,
               height: parentDiv.clientHeight
             });
-             canvas.current?.add(svgImage).renderAll();
-            // Move the event handler here
-            handleMouseDown(canvas.current, dispatch);                            
+            canvas.current?.add(svgImage).renderAll();
+            handleMouseDown(canvas.current, dispatch);
+            handleDeleteSVG(canvas.current, dispatch);
           }
         });
       }
     }
   }, [svgStrings, dispatch]);
+
   useEffect(() => {
     applySvgProperties(canvas.current, svgProperties);
-  },[svgProperties, canvas])
+  }, [svgProperties, canvas])
 
   // Add resize event listener
   useEffect(() => {
     const handleResize = () => {
       const parentDiv = document.getElementById('content');
-      if(parentDiv && canvas.current) {
+      if (parentDiv && canvas.current) {
         canvas.current.setDimensions({
           width: parentDiv.clientWidth,
           height: parentDiv.clientHeight
@@ -68,11 +70,11 @@ const SVGResizer = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
 
   return (
     <div>
-      <canvas ref={canvasRef}/>
+      <canvas ref={canvasRef} />
     </div>
   );
 };

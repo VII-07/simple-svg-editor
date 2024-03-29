@@ -1,14 +1,14 @@
 import { Dispatch } from 'redux';
-import { setWidth, setHeight, setX, setY, setRotate } from '../Redux/inputReducer';
+import { setWidth, setHeight, setX, setY, setRotate, setBorderWight } from '../Redux/inputReducer';
 import { setSvg } from '../Redux/downloadSvgReducer';
-import { setColor } from '../Redux/changeColorReducer';
+import { setBorderColor, setColor } from '../Redux/changeColorReducer';
 
 export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch) => {
   canvas?.on('mouse:down', function () {
     canvas.on('mouse:move', function (options) {
       if (options.target) {
         const selectedObject = options.target;
-        const { left, top, angle, scaleX, scaleY, fill } = selectedObject;
+        const { left, top, angle, scaleX, scaleY, fill, strokeWidth, stroke } = selectedObject;
 
         const width = scaleX?.toFixed(2);
         const height = scaleY?.toFixed(2);
@@ -20,6 +20,8 @@ export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch
         if(typeof fill === 'string'){
           dispatch(setColor(fill))
         }
+        dispatch(setBorderColor((stroke) ?? 'black'))
+        dispatch(setBorderWight((strokeWidth) ?? 0));
         dispatch(setWidth(Number(width) ?? 0));
         dispatch(setHeight(Number(height) ?? 0));
         dispatch(setX(Math.round(left ?? 0)));

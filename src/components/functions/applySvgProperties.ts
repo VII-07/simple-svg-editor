@@ -1,4 +1,3 @@
-// applySvgProperties.ts
 import { SVGProperties } from '../Redux/inputReducer';
 import { fabric } from 'fabric';
 
@@ -13,6 +12,8 @@ export const applySvgProperties = (canvas: fabric.Canvas | null, svgProperties: 
           scaleX: svgProperties.scaleX,
           scaleY: svgProperties.scaleY,
           angle: svgProperties.rotate,
+          strokeWidth: svgProperties.borderWight,
+          strokeUniform: true,
         });
         canvas.renderAll();
       }

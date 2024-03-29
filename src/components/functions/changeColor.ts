@@ -9,6 +9,7 @@ export const changeSvgProperties = (canvas: fabric.Canvas | null, colorState: Co
         
         activeObject.set({
             fill: colorState.color,
+            stroke: colorState.colorBorder,
         });
         canvas.renderAll();
       }

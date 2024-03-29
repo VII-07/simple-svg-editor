@@ -2,15 +2,16 @@ import { ColorPicker, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import styles from '../style.module.scss'
 import { Color } from 'antd/es/color-picker';
-import { setColor } from '../../../Redux/changeColorReducer';
 import { useDispatch } from 'react-redux';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 type colorChangeType = {
     title: string,
     colorRedux: string,
+    setColorState: ActionCreatorWithPayload<string>,
 }
 
-const ColorChange = ({ title, colorRedux }: colorChangeType) => {
+const ColorChange = ({ title, colorRedux, setColorState}: colorChangeType) => {
     const [colorValue, setColorValue] = useState(colorRedux);
     const dispatch = useDispatch()
 
@@ -19,11 +20,11 @@ const ColorChange = ({ title, colorRedux }: colorChangeType) => {
     },[colorRedux])
 
     const onChangeActionColor = (value: Color,) => {
-        dispatch(setColor(value.toHexString()));
+        dispatch(setColorState(value.toHexString()));
     };
 
     const onChangeInputColor = (value: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setColor(value.target.value));
+        dispatch(setColorState(value.target.value));
     };
     return (
         <div className={styles.input__container}>

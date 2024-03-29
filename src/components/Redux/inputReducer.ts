@@ -43,9 +43,12 @@ const svgPropertiesSlice = createSlice({
     setRadius: (state, action: PayloadAction<number>) => {
       state.radius = action.payload;
     },
+    setBorderWight: (state, action: PayloadAction<number>) => {
+      state.borderWight = action.payload;
+    },
   },
 });
 
-export const { setWidth, setHeight, setX, setY, setRotate, setRadius } = svgPropertiesSlice.actions;
+export const { setWidth, setHeight, setX, setY, setRotate, setRadius, setBorderWight } = svgPropertiesSlice.actions;
 
 export default svgPropertiesSlice.reducer;

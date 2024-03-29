@@ -3,9 +3,9 @@ import styles from './style.module.scss';
 import { Col, Divider, Row, Typography } from "antd";
 import ActionInput from "./ActionInputComponents/InputAction";
 import ColorChange from "./ActionInputComponents/ColorChangeAction";
-import { setX, setY, setWidth,setHeight, setRadius, setRotate, SVGProperties } from "../../Redux/inputReducer";
+import { setX, setY, setWidth,setHeight, setRadius, setRotate, SVGProperties, setBorderWight } from "../../Redux/inputReducer";
 import { useSelector } from "react-redux";
-import { ColorPropertiesType } from "../../Redux/changeColorReducer";
+import { ColorPropertiesType, setBorderColor, setColor } from "../../Redux/changeColorReducer";
 
 type RootState = {
     inputReducer: SVGProperties;
@@ -48,10 +48,10 @@ const SideComponent = () => {
                 </Row>
                 <Row className={styles.flex__color}>
                     <Col xs={11}>
-                        <ColorChange title="Color" colorRedux={reduxColor.color}/>
+                        <ColorChange title="Color" colorRedux={reduxColor.color} setColorState={setColor}/>
                     </Col>
                     <Col xs={11}>
-                        <ColorChange title="Border color" colorRedux={reduxColor.colorBorder}/>
+                        <ColorChange title="Border color" colorRedux={reduxColor.colorBorder} setColorState={setBorderColor}/>
                     </Col>
                 </Row>
             </div>
@@ -62,7 +62,7 @@ const SideComponent = () => {
                 </Row>
                 <Row>
                     <Col xs={12}>
-                        <ActionInput title="Border width" setInState={setRadius} reduxValue={reduxValue.borderWight}/>
+                        <ActionInput title="Border width" setInState={setBorderWight} reduxValue={reduxValue.borderWight}/>
                     </Col>
                 </Row>
             </div>

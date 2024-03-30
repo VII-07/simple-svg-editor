@@ -8,7 +8,10 @@ export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch
     canvas.on('mouse:move', function (options) {
       if (options.target) {
         const selectedObject = options.target;
-        const { left, top, angle, scaleX, scaleY, fill, strokeWidth, stroke } = selectedObject;
+        const { left, top, angle, scaleX, scaleY, fill, strokeWidth, stroke, } = selectedObject;
+
+        //z-index++
+        canvas.moveTo(selectedObject, canvas.getObjects().length - 1);
 
         const width = scaleX?.toFixed(2);
         const height = scaleY?.toFixed(2);

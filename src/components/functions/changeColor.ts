@@ -5,7 +5,6 @@ export const changeSvgProperties = (canvas: fabric.Canvas | null, colorState: Co
     if (canvas) {
       const activeObject = canvas.getActiveObject();
       if (activeObject) {
-        console.log(activeObject);
         
         activeObject.set({
             fill: colorState.color,

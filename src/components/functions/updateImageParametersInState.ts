@@ -23,6 +23,11 @@ export const handleMouseDown = (canvas: fabric.Canvas | null, dispatch: Dispatch
         if(typeof fill === 'string'){
           dispatch(setColor(fill))
         }
+
+        const myObject = canvas.toJSON();
+        localStorage.setItem('canvas', JSON.stringify(myObject));
+        
+        
         dispatch(setBorderColor((stroke) ?? 'black'))
         dispatch(setBorderWight((strokeWidth) ?? 0));
         dispatch(setWidth(Number(width) ?? 0));

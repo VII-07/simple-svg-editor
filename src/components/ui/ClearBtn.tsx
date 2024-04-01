@@ -8,7 +8,9 @@ const ClearBtn = () => {
 
     const handdleClearWorkspace = () => {
         dispatch(clear());
+        localStorage.removeItem('canvas');
         message.success('Workspace clear');
+        
     }
 
     return ( 

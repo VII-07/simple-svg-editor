@@ -9,6 +9,7 @@ import { applySvgProperties } from '../../functions/applySvgProperties';
 import { handleDeleteSVG } from '../../functions/deleteSvg';
 import { ColorPropertiesType } from '../../Redux/changeColorReducer';
 import { changeSvgProperties } from '../../functions/changeColor';
+import setCanvasDimensions from '../../functions/setCanvasDimensions';
 
 const SVGResizer = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -18,15 +19,32 @@ const SVGResizer = () => {
   const canvas = useRef<fabric.Canvas | null>(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const initializeCanvas = () => {
     if (canvasRef.current && !canvas.current) {
       canvas.current = new fabric.Canvas(canvasRef.current);
-    }
+      setCanvasDimensions(canvas.current, 'content');
+      const savedCanvas = localStorage.getItem('canvas');
 
-    if (svgStrings.length === 0 && canvas.current) {
-      canvas.current.clear(); // Clear the canvas if the array is empty
+      if (svgStrings.length === 0 && canvas.current && !savedCanvas) {
+        canvas.current.clear();
+      } else {
+        if (savedCanvas && canvas.current) {
+          const json = JSON.parse(savedCanvas);
+          canvas.current.clear();
+          canvas.current.loadFromJSON(json, canvas.current.renderAll.bind(canvas.current));
+        }
+        handleMouseDown(canvas.current, dispatch);
+        handleDeleteSVG(canvas.current, dispatch);
+      }
+    }
+  };
+
+  const handleSvgStringsChange = () => {
+    const savedCanvas = localStorage.getItem('canvas');
+    if (svgStrings.length === 0 && canvas.current && !savedCanvas) {
+      canvas.current.clear();
     } else {
-      const svgString = svgStrings[svgStrings.length - 1]; // Get the last SVG string
+      const svgString = svgStrings[svgStrings.length - 1];
 
       if (svgString && canvas.current) {
         fabric.loadSVGFromString(svgString, (objects, options) => {
@@ -38,43 +56,31 @@ const SVGResizer = () => {
             mr: true
           });
 
-          // Set canvas size to match the parent div
-          const parentDiv = document.getElementById('content');
-
-          if (parentDiv) {
-            canvas.current?.setDimensions({
-              width: parentDiv.clientWidth,
-              height: parentDiv.clientHeight
-            });
-            canvas.current?.add(svgImage).renderAll();
-            handleMouseDown(canvas.current, dispatch);
-            handleDeleteSVG(canvas.current, dispatch);
-          }
+          setCanvasDimensions(canvas.current, 'content');
+          canvas.current?.add(svgImage).renderAll();
+          handleMouseDown(canvas.current, dispatch);
+          handleDeleteSVG(canvas.current, dispatch);
         });
       }
     }
-  }, [svgStrings, dispatch]);
+  };
 
-  useEffect(() => {
+  const handleSvgPropertiesChange = () => {
     applySvgProperties(canvas.current, svgProperties);
     changeSvgProperties(canvas.current, colorRedux);
-  }, [svgProperties,colorRedux, canvas])
+  };
 
-  // Add resize event listener
+  const handleResize = () => {
+    setCanvasDimensions(canvas.current, 'content');
+  };
+
+  useEffect(initializeCanvas, [svgStrings.length, dispatch]);
+  useEffect(handleSvgStringsChange, [svgStrings, dispatch]);
+  useEffect(handleSvgPropertiesChange, [svgProperties, colorRedux, canvas]);
   useEffect(() => {
-    const handleResize = () => {
-      const parentDiv = document.getElementById('content');
-      if (parentDiv && canvas.current) {
-        canvas.current.setDimensions({
-          width: parentDiv.clientWidth,
-          height: parentDiv.clientHeight
-        });
-      }
-    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   return (
     <div>

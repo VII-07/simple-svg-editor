@@ -12,6 +12,7 @@ export const handleDeleteSVG = (canvas: fabric.Canvas | null, dispatch: Dispatch
             if (canvas) {
                 const svg = canvas.toSVG();
                 dispatch(setSvg(svg));
+                this.localStorage.removeItem('canvas');
               }
             canvas?.discardActiveObject().renderAll();
           }

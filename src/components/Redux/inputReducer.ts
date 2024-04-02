@@ -6,7 +6,6 @@ export type SVGProperties = {
   x: number;
   y: number;
   rotate: number;
-  radius: number;
   borderWight: number;
 };
 
@@ -17,7 +16,6 @@ const initialState: SVGProperties = {
   x: 0,
   y: 0,
   rotate: 0,
-  radius: 0,
   borderWight: 0,
 };
 
@@ -40,15 +38,12 @@ const svgPropertiesSlice = createSlice({
     setRotate: (state, action: PayloadAction<number>) => {
       state.rotate = action.payload;
     },
-    setRadius: (state, action: PayloadAction<number>) => {
-      state.radius = action.payload;
-    },
     setBorderWight: (state, action: PayloadAction<number>) => {
       state.borderWight = action.payload;
     },
   },
 });
 
-export const { setWidth, setHeight, setX, setY, setRotate, setRadius, setBorderWight } = svgPropertiesSlice.actions;
+export const { setWidth, setHeight, setX, setY, setRotate, setBorderWight } = svgPropertiesSlice.actions;
 
 export default svgPropertiesSlice.reducer;

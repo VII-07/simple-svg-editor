@@ -19,6 +19,7 @@ const SVGResizer = () => {
   const canvas = useRef<fabric.Canvas | null>(null);
   const dispatch = useDispatch();
 
+
   const initializeCanvas = () => {
     if (canvasRef.current && !canvas.current) {
       canvas.current = new fabric.Canvas(canvasRef.current);
@@ -74,7 +75,7 @@ const SVGResizer = () => {
     setCanvasDimensions(canvas.current, 'content');
   };
 
-  useEffect(initializeCanvas, [svgStrings.length, dispatch]);
+  useEffect(initializeCanvas, [svgStrings, dispatch]);
   useEffect(handleSvgStringsChange, [svgStrings, dispatch]);
   useEffect(handleSvgPropertiesChange, [svgProperties, colorRedux, canvas]);
   useEffect(() => {

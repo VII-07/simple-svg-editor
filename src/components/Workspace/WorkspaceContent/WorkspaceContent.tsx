@@ -74,7 +74,7 @@ const SVGResizer = () => {
     setCanvasDimensions(canvas.current, 'content');
   };
 
-  useEffect(initializeCanvas, [svgStrings.length, dispatch]);
+  useEffect(initializeCanvas, [svgStrings, dispatch]);
   useEffect(handleSvgStringsChange, [svgStrings, dispatch]);
   useEffect(handleSvgPropertiesChange, [svgProperties, colorRedux, canvas]);
   useEffect(() => {

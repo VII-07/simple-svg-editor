@@ -41,19 +41,21 @@ const SVGResizer = ({ canvasRef, canvas }: SvgResizerProps) => {
 
   const handleSvgStringsChange = () => {
     const svgString = svgStrings[svgStrings.length - 1];
-
+  
     if (svgString && canvas.current) {
-      fabric.loadSVGFromString(svgString, (objects, options) => {
-        const svgImage = fabric.util.groupSVGElements(objects, options);
-        svgImage.setControlsVisibility({ mt: true, mb: true, ml: true, mr: true });
-
+      fabric.loadSVGFromString(svgString, (objects) => {
+        objects.forEach((object) => {
+          object.setControlsVisibility({ mt: true, mb: true, ml: true, mr: true });
+          canvas.current?.add(object);
+        });
         setCanvasDimensions(canvas.current, 'content');
-        canvas.current?.add(svgImage).renderAll();
+        canvas.current?.renderAll();
         handleMouseDown(canvas.current, dispatch);
         handleDeleteSVG(canvas.current, dispatch);
       });
     }
   };
+  
 
   const handleSvgPropertiesChange = () => {
     applySvgProperties(canvas.current, svgProperties);

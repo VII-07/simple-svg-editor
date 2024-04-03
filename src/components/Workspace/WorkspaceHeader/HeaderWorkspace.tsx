@@ -7,8 +7,9 @@ import { Button } from "antd";
 import Title from "antd/es/typography/Title";
 import DownloadSvgComponent from "../../DownloadSvgComponent/DownloadSvgComponent";
 import { useNavigate } from "react-router-dom";
+import { SvgResizerProps } from "../WorkspaceContent/WorkspaceContent";
 
-const HeaderWorkspace = () => {
+const HeaderWorkspace = ({canvasRef, canvas} : SvgResizerProps) => {
     const navigate = useNavigate();
     return (
         <Header className={styles.header}>
@@ -20,7 +21,7 @@ const HeaderWorkspace = () => {
             </Button>
             <div className={styles.action__container}>
                 <UpploadBtn />
-                <ClearBtn />
+                <ClearBtn canvasRef={canvasRef} canvas={canvas}/>
                 <DownloadSvgComponent/>
             </div>
         </Header>

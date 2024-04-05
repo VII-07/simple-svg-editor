@@ -1,25 +1,28 @@
-.aside{
+.aside {
     background-color: white !important;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.input__container{
-   display: flex;
-   flex-direction: column;
-    align-items: center;
+.input__container {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
-    &__color{
+
+    &__color {
         display: flex;
         justify-content: center;
         align-items: center;
+
         input {
             margin: 5px;
         }
     }
+
     div {
         border-radius: 0;
     }
-    span{
+
+    span {
         color: black;
         font-size: 14px;
         font-weight: 700;
@@ -27,12 +30,13 @@
     }
 }
 
-.action{
-    &__title{
+.action {
+    &__title {
         font-size: 15px !important;
         color: grey !important;
     }
-    &__container{
+
+    &__container {
         margin: 20px;
     }
 }
